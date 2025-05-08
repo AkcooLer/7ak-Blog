@@ -47,7 +47,7 @@ export const common = {
 
 export const zh = {
   ...common,
-  siteName: "7aK's Blog",
+  siteName: "7aK's Blog 温故而知新",
   meta: {
     ...common.meta,
     title: "7aK'Blog",
@@ -79,12 +79,17 @@ export const zh = {
       description: "7ak同学的自我介绍",
       ogImage: "/images/page-meta/zh/about.png",
     },
+    Tags: {
+      title: "Tags",
+      description: "Here is 7aK's Tags",
+      ogImage: "/images/page-meta/en/tags.png",
+    },
   },
 }
 
 export const en = {
   ...common,
-  siteName: "7aK's Blog",
+  siteName: "7aK's Blog 温故而知新",
   meta: {
     ...common.meta,
     title: "7aK'Blog",
@@ -115,6 +120,11 @@ export const en = {
       title: "About Me",
       description: "Here is 7aK's self-introduction",
       ogImage: "/images/page-meta/en/about.png",
+    },
+     Tags: {
+      title: "Tags",
+      description: "Here is 7aK's Tags",
+      ogImage: "/images/page-meta/en/tags.png",
     },
   },
 }
