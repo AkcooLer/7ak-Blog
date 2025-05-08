@@ -58,7 +58,7 @@ export const zh = {
     ...common.navigation,
     custom: [
       {
-        label: "Project",
+        label: "项目",
         link: "/",
       },
     ],
