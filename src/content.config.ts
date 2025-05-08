@@ -17,7 +17,7 @@ const enPostsCollection = defineCollection({
 })
 
 const zhPostsCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/posts/zh" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/posts/en" }),
   schema: postSchema,
 })
 
