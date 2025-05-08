@@ -1,0 +1,180 @@
+---
+title: "Deepseek&Open-WebUi本地部署过程"
+description: "Deepseek&Open-WebUi本地部署过程"
+pubDate: 2025-05-08
+updatedDate(optional): 2025-05-08
+tags(optional): ["AI", "运维"]
+---
+
+## 一、软件需求
+
+* **操作系统**：Ubuntu
+* **软件安装**：
+1. ollama
+2. Open-webUI
+
+## 二、Ollama搭建
+
+Ollama官网：[https://ollama.com](https://ollama.com)  
+
+
+进入首页选择Download，选择对应操作系统，这里我的为Linux
+复制curl传输命令下载install并运行SH文件  
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```  
+
+安装完成后  
+
+```bash
+ollama --version
+```  
+
+验证是否安装成功  
+
+运行ollama：  
+
+```bash
+ollama serve
+```
+
+查看运行状态：  
+
+```bash
+sudo systemctl status ollama
+```
+
+修改配置文件：`/etc/systemd/system/ollama.service`  
+
+```bash
+Environment="OLLAMA_HOST=0.0.0.0:8434"
+```
+
+安装完成后，你需要启动Ollama服务：  
+
+```bash
+sudo systemctl start ollama
+sudo systemctl status ollama
+```
+
+### DeepSeek-r1 相关版本及大小参考：
+
+| 参数版本       | 模型大小 | 建议CPU | 建议内存 | 建议显存 | 特点                           |
+|----------------|----------|---------|----------|----------|--------------------------------|
+| deepseek-r1:1.5b | 1.1GB    | 4核     | 4~8G     | 4GB      | 轻量级，速度快、普通文本处理   |
+| deepseek-r1:7b  | 4.7G     | 8核     | 16G      | 14GB     | 性能较好，硬件要求适中         |
+| deepseek-r1:8b  | 4.9GB    | 8核     | 16G      | 14GB     | 略强于 7b，精度更高           |
+| deepseek-r1:14b | 9GB      | 12核    | 32G      | 26GB     | 高性能，擅长复杂任务，如数学推理、代码生成 |
+| deepseek-r1:32b | 20GB     | 16核    | 64G      | 48GB     | 专业级，适合高精度任务         |
+| deepseek-r1:70b | 43GB     | 32核    | 128G     | 140GB    | 顶级模型，适合大规模计算和高复杂度任务 |
+| deepseek-r1:671b| 404GB    | 64核    | 512G     | 1342GB   | 超大规模，性能卓越，推理速度快 |
+
+选择对应`models`与版本  
+
+执行命令下载和运行模型。例如：  
+
+```bash
+ollama pull deepseek-r1:1.5b
+ollama run deepseek-r1:1.5b
+```
+
+访问Ollama API  
+
+Ollama还提供了一个REST API，允许你通过编程方式访问模型。默认情况下，API监听端口11434：  
+
+```bash
+curl http://localhost:11434/api/generate -d '{"model": "qwen2.5:1.5b", "prompt": "Your prompt here", "stream": false}'
+```
+
+### 3 ollama 常用命令参考
+
+ ollama 提供了丰富的命令行工具，方便用户对模型进行管理。  
+
+* ollama --help：查看帮助信息。  
+* ollama serve：启动 ollama 服务。  
+* ollama create `<model-name>` [-f Modelfile]：根据一个 Modelfile 文件导入模型。  
+* ollama show `<model-name:[size]>`：显示某个模型的详细信息。  
+* ollama run `<model-name:[size]>`：运行一个模型。若模型不存在会先拉取它。  
+* ollama stop `<model-name:[size]>`：停止一个正在运行的模型。  
+* ollama pull `<model-name:[size]>`：拉取指定的模型。  
+* ollama push `<model-name>`：将一个模型推送到远程模型仓库。  
+* ollama list：列出所有模型。  
+* ollama ps：列出所有正在运行的模型。  
+* ollama cp `<source-model-name>` `<new-model-name>`：复制一个模型。  
+* ollama rm `<model-name:[size]>`：删除一个模型。  
+
+## 三、Open-WEBUI搭建  
+
+Open WebUI 是一个开源的大语言模型项目，通过部署它可以得到一个纯本地运行的基于浏览器访问的 Web 服务。它提供了可扩展、功能丰富、用户友好的自托管 AI Web 界面，支持各种大型语言模型（LLM）运行器，可以通过配置形式便捷的集成 ollama、OpenAI 等提供的 API。通过 Open WebUI 可以实现聊天机器人、本地知识库、图像生成等丰富的大模型应用功能。  
+
+在开始之前，请确保你的系统已经安装了 `docker`。
+
+### 新建文件 `docker-compose.yml`，内容参考：  
+
+```yaml
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    environment:
+      # Ollama API Base URL
+      - OLLAMA_API_BASE_URL=http://ollama:11434/api
+      # Hugging Face Model Mirror
+      - HF_ENDPOINT=https://hf-mirror.com  
+      # 服务名称
+      - WEBUI_NAME="LZW的LLM服务"
+      # 禁用 OPENAI API 的请求。若你的网络环境无法访问 openai，请务必设置该项为 false
+      # 否则在登录成功时，会因为同时请求了 openai 接口而导致白屏时间过长
+      - ENABLE_OPENAI_API=false
+      # 设置允许跨域请求服务的域名。* 表示允许所有域名
+      - CORS_ALLOW_ORIGIN=*
+      # 开启图片生成
+      - ENABLE_IMAGE_GENERATION=true
+      # 默认模型
+      - DEFAULT_MODELS=deepseek-r1:8b
+      # RAG 构建本地知识库使用的默认嵌入域名
+      - RAG_EMBEDDING_MODEL=bge-m3
+    ports:
+      # 服务挂载端口
+      - 8080:8080
+    volumes:
+      # 数据存储路径
+      - ./open_webui_data:/app/backend/data
+    extra_hosts:
+      # 主机额外域名
+      # - host.docker.internal:host-gateway
+```  
+
+这里需注意 environment 环境变量部分的自定义设置。许多设置也可以通过登录后在 web 界面进行修改。
+
+在该目录下执行该命令以启动服务：  
+
+```bash
+docker-compose up -d
+```
+
+成功后即可通过浏览器访问：`http://localhost:8080`。
+
+* 服务镜像更新参考：  
+  * 拉取新镜像  
+    ```bash
+    docker-compose pull
+    ```
+  * 重启服务  
+    ```bash
+    docker-compose up -d --remove-orphans
+    ```
+  * 清理镜像  
+    ```bash
+    docker image prune
+    ```
+
+* open-webui 详细文档参考：  
+  * [.inflate API-LLM Guide](https://api.llm.guide/chat/886ee45b-1d9a-4f09-aa0b-47dc428de97f) 《Open WebUI | Getting Started》  
+  * 官方站：[Ollama](https://ollama.com)  
+  * 中文站：[Ollama中文站](https://ollama.org.cn)  
+  * 入门：[快速入门 - Ollama 中文文档](https://ollama.readthedocs.io/quickstart/)  
+  * 常见问题：[常见问题 - Ollama 中文文档](https://ollama.readthedocs.io/faq/)  
+  * 魔塔社区：[ModelScope 魔搭社区](https://modelscope.cn)  
+  * HF Mirror：[HF Mirror](https://hf-mirror.com)  
+  * open-webui 文档：[Home - Open WebUI](https://docs.openwebui.com)
