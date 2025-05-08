@@ -3,22 +3,22 @@ import { Github, Twitter } from "lucide-react"
 export const defaultLanguage: string = "zh"
 
 export const common = {
-  domain: "https://astro-air.guoqi.dev",
+  domain: "https://www.memme.cn",
   meta: {
     favicon: "/avatar.png",
-    url: "https://blog.sunguoqi.com",
+    url: "https://www.memme.cn",
   },
   googleAnalyticsId: "",
   social: [
     {
       icon: Twitter,
       label: "X",
-      link: "https://x.com/sun0225SUN",
+      link: "https://x.com/akcooler",
     },
     {
       icon: Github,
       label: "GitHub",
-      link: "https://github.com/sun0225SUN",
+      link: "https://github.com/AkcooLer",
     },
   ],
   rss: true,
@@ -27,8 +27,8 @@ export const common = {
     archive: true,
     custom: [
       {
-        label: "CamLife",
-        link: "https://camlife.cn",
+        label: "Email",
+        link: "mailto:2813955543@qq.com",
       },
     ],
     links: true,
@@ -47,12 +47,12 @@ export const common = {
 
 export const zh = {
   ...common,
-  siteName: "小孙同学",
+  siteName: "7aK's Blog",
   meta: {
     ...common.meta,
-    title: "小孙同学",
-    slogan: "一个浪漫的理性主义者",
-    description: "读书、摄影、编程、旅行",
+    title: "7aK'Blog",
+    slogan: "温故而知新",
+    description: "运维、安全、渗透、CTF",
   },
   navigation: {
     ...common.navigation,
@@ -65,18 +65,18 @@ export const zh = {
   },
   pageMeta: {
     archive: {
-      title: "归档",
-      description: "小孙同学的所有文章",
+      title: "All Posts",
+      description: "7ak同学的所有文章",
       ogImage: "/images/page-meta/zh/archive.png",
     },
     links: {
-      title: "朋友们",
-      description: "小孙同学的和他朋友们",
+      title: "My Friends",
+      description: "7ak同学的和他朋友们",
       ogImage: "/images/page-meta/zh/links.png",
     },
     about: {
-      title: "关于我",
-      description: "小孙同学的自我介绍",
+      title: "About Me",
+      description: "7ak同学的自我介绍",
       ogImage: "/images/page-meta/zh/about.png",
     },
   },
@@ -84,11 +84,11 @@ export const zh = {
 
 export const en = {
   ...common,
-  siteName: "Guoqi Sun",
+  siteName: "7aK's Blog",
   meta: {
     ...common.meta,
-    title: "Guoqi Sun",
-    slogan: "A Romantic Rationalist",
+    title: "7aK'Blog",
+    slogan: "温故而知新",
     description: "Reading, Photography, Programming, Traveling",
   },
   navigation: {
@@ -103,17 +103,17 @@ export const en = {
   pageMeta: {
     archive: {
       title: "All Posts",
-      description: "Here are Guoqi Sun's all posts",
+      description: "Here are 7aK's all posts",
       ogImage: "/images/page-meta/en/archive.png",
     },
     links: {
       title: "My Friends",
-      description: "Here are Guoqi Sun's friends",
+      description: "Here are 7aK's friends",
       ogImage: "/images/page-meta/en/links.png",
     },
     about: {
       title: "About Me",
-      description: "Here is Guoqi Sun's self-introduction",
+      description: "Here is 7aK's self-introduction",
       ogImage: "/images/page-meta/en/about.png",
     },
   },
