@@ -58,8 +58,8 @@ export const zh = {
     ...common.navigation,
     custom: [
       {
-        label: "影集",
-        link: "https://camlife.cn",
+        label: "Project",
+        link: "/",
       },
     ],
   },
@@ -95,8 +95,8 @@ export const en = {
     ...common.navigation,
     custom: [
       {
-        label: "CamLife",
-        link: "https://camlife.cn",
+        label: "Project",
+        link: "/",
       },
     ],
   },
