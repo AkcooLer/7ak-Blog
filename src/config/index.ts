@@ -1,6 +1,6 @@
 import { Github, Twitter } from "lucide-react"
 
-export const defaultLanguage: string = "zh"
+export const defaultLanguage: string = "cn"
 
 export const common = {
   domain: "https://www.memme.cn",
