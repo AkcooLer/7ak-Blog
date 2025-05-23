@@ -1,12 +1,56 @@
 export const title = "你好，我是7aK's～"
 
-<h3 class="my-10 text-center text-xl font-bold">{title}</h3>
+<div className="flex flex-col gap-8">
+  <div className="flex flex-col items-center gap-4">
+    <img
+      src="/avatar.png"
+      alt="Avatar"
+      className="h-32 w-32 rounded-full border-4 border-gray-200 dark:border-gray-700"
+    />
+    <h1 className="text-3xl font-bold">{title}</h1>
+    <p className="text-gray-600 dark:text-gray-400">
+      🌟 网络安全学生 | CTFer | 开源爱好者
+    </p>
+  </div>
 
-<img
-  className="block dark:hidden"
-  src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/profile-snake-contrib/github-contribution-grid-snake.svg"
-/>
-<img
-  className="hidden dark:block"
-  src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/profile-snake-contrib/github-contribution-grid-snake-dark.svg"
-/>
+  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+      <h2 className="mb-2 text-xl font-semibold">🎯 技能特长</h2>
+      <ul className="list-inside list-disc space-y-2">
+        <li>Web安全</li>
+        <li>渗透测试</li>
+        <li>代码审计</li>
+        <li>漏洞挖掘</li>
+      </ul>
+    </div>
+
+    <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+      <h2 className="mb-2 text-xl font-semibold">🌱 正在学习</h2>
+      <ul className="list-inside list-disc space-y-2">
+        <li>二进制安全</li>
+        <li>逆向工程</li>
+        <li>IoT安全</li>
+        <li>云安全</li>
+      </ul>
+    </div>
+  </div>
+
+  <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+    <h2 className="mb-2 text-xl font-semibold">📊 GitHub 统计</h2>
+    <img
+      className="block dark:hidden"
+      src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/profile-snake-contrib/github-contribution-grid-snake.svg"
+    />
+    <img
+      className="hidden dark:block"
+      src="https://cdn.jsdelivr.net/gh/sun0225SUN/sun0225SUN/profile-snake-contrib/github-contribution-grid-snake-dark.svg"
+    />
+  </div>
+
+  <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+    <h2 className="mb-4 text-xl font-semibold">🎯 座右铭</h2>
+    <blockquote className="border-l-4 border-gray-300 pl-4 italic dark:border-gray-600">
+      路虽远行则将至，事虽难做则必成！
+    </blockquote>
+  </div>
+</div>

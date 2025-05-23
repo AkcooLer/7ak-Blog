@@ -18,7 +18,9 @@ const openGraphImage = !ogImage ? `/og/${filename}.png` : ogImage
   <main class="max-auto mb-10 w-full max-w-3xl">
     <Header />
     <Navigation />
-    <slot />
+    <div class="page-content">
+      <slot />
+    </div>
     <div class="mt-20">
       {needComment && <Comments />}
     </div>

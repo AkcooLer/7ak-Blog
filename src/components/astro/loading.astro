@@ -1,0 +1,53 @@
+<div id="loading-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-gray-900 transition-opacity duration-500">
+  <div class="flex flex-col items-center">
+    <div class="relative">
+      <img 
+        src="/avatar.png" 
+        alt="Loading" 
+        class="w-24 h-24 rounded-full animate-pulse"
+      />
+      <div class="absolute inset-0 border-2 border-gray-200 dark:border-gray-700 rounded-full animate-spin-slow"></div>
+    </div>
+    <div class="mt-6 text-lg font-medium text-gray-700 dark:text-gray-300 animate-pulse">
+      加载中...
+    </div>
+  </div>
+</div>
+
+<script>
+  // 设置最小加载时间为3秒
+  const minLoadTime = 3000;
+  const startTime = Date.now();
+  
+  window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+      
+      // 确保至少显示3秒
+      setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 500);
+      }, remainingTime);
+    }
+  });
+</script>
+
+<style>
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+  
+  #loading-screen {
+    opacity: 1;
+  }
+</style> 

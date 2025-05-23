@@ -1,0 +1,72 @@
+---
+import { en, zh } from "~/config"
+import { getLangFromUrl } from "~/i18n/utils"
+import MainLayout from "~/layouts/main.astro"
+import { getLanguagePaths } from "~/utils/langs"
+
+export function getStaticPaths() {
+  return getLanguagePaths()
+}
+
+const lang = getLangFromUrl(Astro.url)
+const pageMeta = lang === "zh" ? zh.pageMeta : en.pageMeta
+
+const projects = [
+  {
+    title: "项目1",
+    description: "这是项目1的描述",
+    image: "/project1.png",
+    link: "https://github.com/yourusername/project1",
+    tags: ["React", "TypeScript", "Tailwind CSS"],
+  },
+  {
+    title: "项目2",
+    description: "这是项目2的描述",
+    image: "/project2.png",
+    link: "https://github.com/yourusername/project2",
+    tags: ["Vue", "JavaScript", "SCSS"],
+  },
+  // 添加更多项目...
+]
+---
+
+<MainLayout
+  title="Projects"
+  description="My open source projects"
+  ogImage="/images/page-meta/projects.png"
+>
+  <div class="my-10">
+    <h1 class="text-center text-3xl font-bold">开源项目</h1>
+    <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        projects.map((project) => (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
+          >
+            <div class="relative aspect-video w-full overflow-hidden rounded-lg">
+              <img
+                src={project.image}
+                alt={project.title}
+                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+            </div>
+            <h3 class="mt-4 text-xl font-semibold">{project.title}</h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">
+              {project.description}
+            </p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</MainLayout> 

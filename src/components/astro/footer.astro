@@ -1,33 +1,86 @@
 ---
+import { getLangFromUrl } from "~/i18n/utils"
+
 const currentYear = new Date().getFullYear()
+const lang = getLangFromUrl(Astro.url)
+
+const footerLinks = [
+  {
+    title: "导航",
+    links: [
+      { text: "首页", href: `/${lang}` },
+      { text: "归档", href: `/${lang}/archive` },
+      { text: "项目", href: `/${lang}/projects` },
+      { text: "关于", href: `/${lang}/about` },
+    ],
+  },
+  {
+    title: "社交媒体",
+    links: [
+      { text: "GitHub", href: "https://github.com/AkcooLer" },
+      { text: "Twitter", href: "https://x.com/akcooler" },
+      { text: "Email", href: "mailto:2813955543@qq.com" },
+    ],
+  },
+  {
+    title: "技术栈",
+    links: [
+      { text: "Web安全", href: "#" },
+      { text: "渗透测试", href: "#" },
+      { text: "代码审计", href: "#" },
+      { text: "漏洞挖掘", href: "#" },
+    ],
+  },
+  {
+    title: "更多链接",
+    links: [
+      { text: "CTF Writeup", href: "#" },
+      { text: "安全工具", href: "#" },
+      { text: "学习资源", href: "#" },
+      { text: "技术分享", href: "#" },
+    ],
+  },
+]
 ---
 
-<footer class="flex flex-wrap items-center gap-1 py-10">
-  <p>&copy; {currentYear}</p>
+<footer class="mt-20 border-t border-gray-200 pb-10 pt-10 dark:border-gray-700">
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+    {
+      footerLinks.map((section) => (
+        <div>
+          <h3 class="mb-4 text-lg font-semibold">{section.title}</h3>
+          <ul class="space-y-2">
+            {section.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-gray-600 transition-colors duration-200 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
 
-  {
-    [
-      {
-        text: "Designed By",
-        link: "https://memme.cn",
-        label: "7aK's",
-      },
-      {
-        text: "ICP备案",
-        link: "https://beian.miit.gov.cn/",
-        label: "京ICP备2025123819号-1",
-      },
-    ].map((item, index) => (
-      <>
-        {index > 0 && <p class="mx-1">|</p>}
-        <p>{item.text}</p>
-        <a
-          href={item.link}
-          class="text-blue-600 transition-colors duration-200 hover:text-blue-800"
-        >
-          {item.label}
-        </a>
-      </>
-    ))
-  }
+  <div class="mt-10 flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+    <p>&copy; {currentYear}</p>
+    <p>|</p>
+    <a
+      href="https://memme.cn"
+      class="transition-colors duration-200 hover:text-primary"
+    >
+      Designed By 7aK's
+    </a>
+    <p>|</p>
+    <a
+      href="https://beian.miit.gov.cn/"
+      class="transition-colors duration-200 hover:text-primary"
+    >
+      京ICP备2025123819号-1
+    </a>
+  </div>
 </footer>

@@ -59,7 +59,7 @@ export const zh = {
     custom: [
       {
         label: "项目",
-        link: "/",
+        link: "/zh/projects",
       },
     ],
   },
@@ -78,6 +78,11 @@ export const zh = {
       title: "About Me",
       description: "7ak同学的自我介绍",
       ogImage: "/images/page-meta/zh/about.png",
+    },
+    projects: {
+      title: "Projects",
+      description: "我的开源项目",
+      ogImage: "/images/page-meta/zh/projects.png",
     },
     Tags: {
       title: "Tags",

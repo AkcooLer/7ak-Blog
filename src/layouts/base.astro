@@ -1,5 +1,6 @@
 ---
 import { NoiseBackground } from "~/components/react/noise-background"
+import { Loading } from "~/components/react/loading"
 import { getLangFromUrl } from "~/i18n/utils"
 import { GoogleAnalytics } from "astro-google-analytics"
 import { en, zh } from "~/config"
@@ -98,5 +99,6 @@ const config = lang === "zh" ? zh : en
   >
     <slot />
     <NoiseBackground />
+    <Loading client:load />
   </body>
 </html>
