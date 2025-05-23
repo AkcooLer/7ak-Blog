@@ -94,10 +94,10 @@ export const zh = {
 
 export const en = {
   ...common,
-  siteName: "7aK's Blog 温故而知新",
+  siteName: "aK's Blog 温故而知新",
   meta: {
     ...common.meta,
-    title: "7aK'Blog",
+    title: "aK's Blog",
     slogan: "温故而知新",
     description: "Reading, Photography, Programming, Traveling",
   },
@@ -105,28 +105,33 @@ export const en = {
     ...common.navigation,
     custom: [
       {
-        label: "Project",
-        link: "/",
+        label: "项目",
+        link: "/zh/projects",
       },
     ],
   },
   pageMeta: {
     archive: {
       title: "All Posts",
-      description: "Here are 7aK's all posts",
-      ogImage: "/images/page-meta/en/archive.png",
+      description: "7ak同学的所有文章",
+      ogImage: "/images/page-meta/zh/archive.png",
     },
     links: {
       title: "My Friends",
-      description: "Here are 7aK's friends",
-      ogImage: "/images/page-meta/en/links.png",
+      description: "7ak同学的和他朋友们",
+      ogImage: "/images/page-meta/zh/links.png",
     },
     about: {
       title: "About Me",
-      description: "Here is 7aK's self-introduction",
-      ogImage: "/images/page-meta/en/about.png",
+      description: "7ak同学的自我介绍",
+      ogImage: "/images/page-meta/zh/about.png",
     },
-     Tags: {
+    projects: {
+      title: "Projects",
+      description: "我的开源项目",
+      ogImage: "/images/page-meta/zh/projects.png",
+    },
+    Tags: {
       title: "Tags",
       description: "Here is 7aK's Tags",
       ogImage: "/images/page-meta/en/tags.png",
