@@ -8,6 +8,7 @@ import { processContent, processTitle, processTags } from "~/utils/content"
 import "~/styles/post.css"
 import "~/styles/post.scss"
 import "~/styles/image-hover.css"
+import "~/styles/lightbox.css"
 import { formatDate, getPostsByLocale } from "~/utils"
 
 export async function getStaticPaths() {
@@ -67,12 +68,13 @@ const processedContent = processContent(post.body)
 </MainLayout>
 
 <script>
-  // 为文章中的所有图片添加悬浮效果
+  // 为文章中的所有图片添加悬浮效果和灯箱功能
   document.addEventListener("DOMContentLoaded", () => {
     const images = document.querySelectorAll(
       ".prose img",
     ) as NodeListOf<HTMLImageElement>
     images.forEach((img) => {
+      // 创建包装器
       const wrapper = document.createElement("div")
       wrapper.className = "image-hover"
 
@@ -87,6 +89,51 @@ const processedContent = processContent(post.body)
       // 将图片包装在div中
       img.parentNode?.insertBefore(wrapper, img)
       wrapper.appendChild(img)
+
+      // 添加灯箱功能
+      img.setAttribute("data-lightbox", "gallery")
+      img.setAttribute("data-title", img.alt || "")
     })
+  })
+</script>
+
+<!-- 引入lightbox2库 -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css"
+  rel="stylesheet"
+/>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"
+></script>
+
+<script>
+  // 声明lightbox类型
+  declare global {
+    interface Window {
+      lightbox: {
+        option: (options: {
+          resizeDuration?: number
+          wrapAround?: boolean
+          albumLabel?: string
+          fadeDuration?: number
+          imageFadeDuration?: number
+          positionFromTop?: number
+          maxWidth?: number
+          maxHeight?: number
+        }) => void
+      }
+    }
+  }
+
+  // 配置lightbox
+  window.lightbox.option({
+    resizeDuration: 200,
+    wrapAround: true,
+    albumLabel: "图片 %1 / %2",
+    fadeDuration: 300,
+    imageFadeDuration: 300,
+    positionFromTop: 100,
+    maxWidth: 1200,
+    maxHeight: 800,
   })
 </script>

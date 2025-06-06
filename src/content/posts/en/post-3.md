@@ -90,8 +90,6 @@ tags: ["安全", "xss", "渗透"]
 
 ![](https://memme.cn/images/page-meta/en/12.png)
 
-
-
 ![](https://memme.cn/images/page-meta/en/12.png)
 
 源码处发现使用str_replace函数，<script>转换为<scr_ipt> on转换为o_n
