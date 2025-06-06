@@ -80,6 +80,7 @@ const processedContent = processContent(post.body)
   // 声明lightbox类型
   declare global {
     interface Window {
+      jQuery: any
       lightbox: {
         option: (options: {
           resizeDuration?: number
@@ -95,28 +96,30 @@ const processedContent = processContent(post.body)
     }
   }
 
-  // 等待lightbox加载完成
-  function initLightbox() {
-    if (window.lightbox) {
-      // 配置lightbox
-      window.lightbox.option({
-        resizeDuration: 200,
-        wrapAround: true,
-        albumLabel: "图片 %1 / %2",
-        fadeDuration: 300,
-        imageFadeDuration: 300,
-        positionFromTop: 100,
-        maxWidth: 1200,
-        maxHeight: 800,
-      })
+  // 等待所有依赖加载完成
+  function waitForDependencies(callback: () => void) {
+    if (window.jQuery && window.lightbox) {
+      callback()
     } else {
-      // 如果还没加载完成，等待100ms后重试
-      setTimeout(initLightbox, 100)
+      setTimeout(() => waitForDependencies(callback), 100)
     }
   }
 
-  // 为文章中的所有图片添加悬浮效果和灯箱功能
-  document.addEventListener("DOMContentLoaded", () => {
+  // 初始化功能
+  function initializeFeatures() {
+    // 配置lightbox
+    window.lightbox.option({
+      resizeDuration: 200,
+      wrapAround: true,
+      albumLabel: "图片 %1 / %2",
+      fadeDuration: 300,
+      imageFadeDuration: 300,
+      positionFromTop: 100,
+      maxWidth: 1200,
+      maxHeight: 800,
+    })
+
+    // 为文章中的所有图片添加悬浮效果和灯箱功能
     const images = document.querySelectorAll(
       ".prose img",
     ) as NodeListOf<HTMLImageElement>
@@ -141,8 +144,10 @@ const processedContent = processContent(post.body)
       img.setAttribute("data-lightbox", "gallery")
       img.setAttribute("data-title", img.alt || "")
     })
+  }
 
-    // 初始化lightbox
-    initLightbox()
+  // 等待DOM加载完成后初始化
+  document.addEventListener("DOMContentLoaded", () => {
+    waitForDependencies(initializeFeatures)
   })
 </script>

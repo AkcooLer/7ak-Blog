@@ -24,30 +24,17 @@ const cspHeader = generateCspHeader()
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href={config.meta.favicon} />
-    <title>
-      {
-        title
-          ? `${config.meta.title} - ${title}`
-          : `${config.meta.title} - ${config.meta.slogan}`
-      }
-    </title>
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content={description ? description : config.meta.description}
-    />
+    <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light dark" />
 
     <!-- 安全相关头部 -->
     <meta http-equiv="Content-Security-Policy" content={cspHeader} />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
     <meta
       http-equiv="Referrer-Policy"
@@ -58,19 +45,23 @@ const cspHeader = generateCspHeader()
       content="geolocation=(), microphone=(), camera=()"
     />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={permalink} />
+    <!-- 其他头部 -->
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={Astro.url} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={permalink} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={ogImageURL} />
+    <!-- 引入jQuery -->
+    <script src="https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js"
+    ></script>
 
     <script is:inline>
       const setTheme = () => {
