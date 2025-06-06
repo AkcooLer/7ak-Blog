@@ -91,6 +91,8 @@ const processedContent = processContent(post.body)
           positionFromTop?: number
           maxWidth?: number
           maxHeight?: number
+          disableScrolling?: boolean
+          alwaysShowNavOnTouchDevices?: boolean
         }) => void
       }
     }
@@ -117,9 +119,11 @@ const processedContent = processContent(post.body)
       positionFromTop: 100,
       maxWidth: 1200,
       maxHeight: 800,
+      disableScrolling: true,
+      alwaysShowNavOnTouchDevices: true,
     })
 
-    // 为文章中的所有图片添加悬浮效果和灯箱功能
+    // 为文章中的所有图片添加灯箱功能
     const images = document.querySelectorAll(
       ".prose img",
     ) as NodeListOf<HTMLImageElement>
@@ -143,11 +147,19 @@ const processedContent = processContent(post.body)
       // 添加灯箱功能
       img.setAttribute("data-lightbox", "gallery")
       img.setAttribute("data-title", img.alt || "")
+
+      // 添加点击效果
+      img.style.cursor = "zoom-in"
     })
   }
 
   // 等待DOM加载完成后初始化
   document.addEventListener("DOMContentLoaded", () => {
+    waitForDependencies(initializeFeatures)
+  })
+
+  // 在页面切换时重新初始化
+  document.addEventListener("astro:page-load", () => {
     waitForDependencies(initializeFeatures)
   })
 </script>
