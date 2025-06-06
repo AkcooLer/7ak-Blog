@@ -67,36 +67,6 @@ const processedContent = processContent(post.body)
   </div>
 </MainLayout>
 
-<script>
-  // 为文章中的所有图片添加悬浮效果和灯箱功能
-  document.addEventListener("DOMContentLoaded", () => {
-    const images = document.querySelectorAll(
-      ".prose img",
-    ) as NodeListOf<HTMLImageElement>
-    images.forEach((img) => {
-      // 创建包装器
-      const wrapper = document.createElement("div")
-      wrapper.className = "image-hover"
-
-      // 如果有alt文本，添加说明文字
-      if (img.alt) {
-        const caption = document.createElement("div")
-        caption.className = "image-caption"
-        caption.textContent = img.alt
-        wrapper.appendChild(caption)
-      }
-
-      // 将图片包装在div中
-      img.parentNode?.insertBefore(wrapper, img)
-      wrapper.appendChild(img)
-
-      // 添加灯箱功能
-      img.setAttribute("data-lightbox", "gallery")
-      img.setAttribute("data-title", img.alt || "")
-    })
-  })
-</script>
-
 <!-- 引入lightbox2库 -->
 <link
   href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css"
@@ -125,15 +95,54 @@ const processedContent = processContent(post.body)
     }
   }
 
-  // 配置lightbox
-  window.lightbox.option({
-    resizeDuration: 200,
-    wrapAround: true,
-    albumLabel: "图片 %1 / %2",
-    fadeDuration: 300,
-    imageFadeDuration: 300,
-    positionFromTop: 100,
-    maxWidth: 1200,
-    maxHeight: 800,
+  // 等待lightbox加载完成
+  function initLightbox() {
+    if (window.lightbox) {
+      // 配置lightbox
+      window.lightbox.option({
+        resizeDuration: 200,
+        wrapAround: true,
+        albumLabel: "图片 %1 / %2",
+        fadeDuration: 300,
+        imageFadeDuration: 300,
+        positionFromTop: 100,
+        maxWidth: 1200,
+        maxHeight: 800,
+      })
+    } else {
+      // 如果还没加载完成，等待100ms后重试
+      setTimeout(initLightbox, 100)
+    }
+  }
+
+  // 为文章中的所有图片添加悬浮效果和灯箱功能
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(
+      ".prose img",
+    ) as NodeListOf<HTMLImageElement>
+    images.forEach((img) => {
+      // 创建包装器
+      const wrapper = document.createElement("div")
+      wrapper.className = "image-hover"
+
+      // 如果有alt文本，添加说明文字
+      if (img.alt) {
+        const caption = document.createElement("div")
+        caption.className = "image-caption"
+        caption.textContent = img.alt
+        wrapper.appendChild(caption)
+      }
+
+      // 将图片包装在div中
+      img.parentNode?.insertBefore(wrapper, img)
+      wrapper.appendChild(img)
+
+      // 添加灯箱功能
+      img.setAttribute("data-lightbox", "gallery")
+      img.setAttribute("data-title", img.alt || "")
+    })
+
+    // 初始化lightbox
+    initLightbox()
   })
 </script>

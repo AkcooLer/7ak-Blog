@@ -76,16 +76,25 @@ export function validateCsrfToken(token: string, storedToken: string): boolean {
  */
 export const cspConfig: Record<string, string[]> = {
   "default-src": ["'self'"],
-  "script-src": ["'self'", "'unsafe-inline'"],
-  "style-src": ["'self'", "'unsafe-inline'"],
+  "script-src": [
+    "'self'",
+    "'unsafe-inline'",
+    "https://cdn.staticfile.org",
+    "https://cdnjs.cloudflare.com",
+    "https://umami.guoqi.dev",
+  ],
+  "style-src": [
+    "'self'",
+    "'unsafe-inline'",
+    "https://cdn.staticfile.org",
+    "https://cdnjs.cloudflare.com",
+  ],
   "img-src": ["'self'", "data:", "https:"],
-  "connect-src": ["'self'"],
+  "connect-src": ["'self'", "https://umami.guoqi.dev"],
   "font-src": ["'self'"],
   "object-src": ["'none'"],
   "media-src": ["'self'"],
   "frame-src": ["'none'"],
-  sandbox: ["allow-forms", "allow-same-origin", "allow-scripts"],
-  "report-uri": ["/api/csp-report"],
 }
 
 /**
