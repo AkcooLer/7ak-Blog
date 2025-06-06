@@ -7,6 +7,7 @@ tags: ["安全", "xss", "渗透"]
 ---
 
 <h1 id="Exg7d">常用payload：</h1>
+
 ```javascript
 <script>alert("xss")</script>
   
