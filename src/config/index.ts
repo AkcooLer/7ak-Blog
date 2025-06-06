@@ -47,10 +47,10 @@ export const common = {
 
 export const zh = {
   ...common,
-  siteName: "aK's Blog 温故而知新",
+  siteName: "Kilm0r's Blog 温故而知新",
   meta: {
     ...common.meta,
-    title: "aK'Blog",
+    title: "Kilm0r'Blog",
     slogan: "温故而知新",
     description: "运维、安全、渗透、CTF",
   },
@@ -94,10 +94,10 @@ export const zh = {
 
 export const en = {
   ...common,
-  siteName: "aK's Blog 温故而知新",
+  siteName: "Kilm0r's Blog 温故而知新",
   meta: {
     ...common.meta,
-    title: "aK's Blog",
+    title: "Kilm0r's Blog",
     slogan: "温故而知新",
     description: "Reading, Photography, Programming, Traveling",
   },
