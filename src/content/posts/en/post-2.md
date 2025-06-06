@@ -2,7 +2,7 @@
 title: xss注入备忘录
 author: ak
 description: "xss注入备忘录"
-pubDate: 2025-05-08
+pubDate: 2025-05-10
 tags: ["安全", "xss", "渗透"]
 ---
 

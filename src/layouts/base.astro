@@ -5,25 +5,29 @@ import { getLangFromUrl } from "~/i18n/utils"
 import { GoogleAnalytics } from "astro-google-analytics"
 import { en, zh } from "~/config"
 import { ClientRouter } from "astro:transitions"
+import { generateCspHeader } from "~/utils/security"
 
 import "~/styles/tailwind.css"
 import "~/styles/view-transition.css"
 
 const lang = getLangFromUrl(Astro.url)
 
-const { title, description, ogImage } = Astro.props
+const { title, description, ogImage, noindex } = Astro.props
 
 const ogImageURL = new URL(ogImage, Astro.site).href
 const permalink = new URL(Astro.url.pathname, Astro.site).href
 
 const config = lang === "zh" ? zh : en
+
+// 生成CSP头
+const cspHeader = generateCspHeader()
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href={config.meta.favicon} />
     <title>
       {
@@ -36,6 +40,22 @@ const config = lang === "zh" ? zh : en
     <meta
       name="description"
       content={description ? description : config.meta.description}
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- 安全相关头部 -->
+    <meta http-equiv="Content-Security-Policy" content={cspHeader} />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta
+      http-equiv="Referrer-Policy"
+      content="strict-origin-when-cross-origin"
+    />
+    <meta
+      http-equiv="Permissions-Policy"
+      content="geolocation=(), microphone=(), camera=()"
     />
 
     <!-- Open Graph / Facebook -->

