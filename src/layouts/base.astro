@@ -60,7 +60,7 @@ const cspHeader = generateCspHeader()
     <meta name="twitter:image" content={ogImage} />
 
     <!-- 引入jQuery -->
-    <script src="https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js"
+    <script src="https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js" defer
     ></script>
 
     <!-- 引入lightbox2 -->
@@ -70,9 +70,12 @@ const cspHeader = generateCspHeader()
     />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"
-    ></script>
+      defer></script>
 
     <script is:inline>
+      // 确保jQuery在全局作用域可用
+      window.jQuery = window.$ = require("jquery")
+
       const setTheme = () => {
         const theme =
           localStorage.getItem("theme") ??

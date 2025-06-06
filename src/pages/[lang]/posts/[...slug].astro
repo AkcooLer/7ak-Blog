@@ -100,7 +100,10 @@ const processedContent = processContent(post.body)
 
   // 等待所有依赖加载完成
   function waitForDependencies(callback: () => void) {
-    if (window.jQuery && window.lightbox) {
+    if (
+      typeof window.jQuery !== "undefined" &&
+      typeof window.lightbox !== "undefined"
+    ) {
       callback()
     } else {
       setTimeout(() => waitForDependencies(callback), 100)
@@ -109,54 +112,64 @@ const processedContent = processContent(post.body)
 
   // 初始化功能
   function initializeFeatures() {
-    // 配置lightbox
-    window.lightbox.option({
-      resizeDuration: 200,
-      wrapAround: true,
-      albumLabel: "图片 %1 / %2",
-      fadeDuration: 300,
-      imageFadeDuration: 300,
-      positionFromTop: 100,
-      maxWidth: 1200,
-      maxHeight: 800,
-      disableScrolling: true,
-      alwaysShowNavOnTouchDevices: true,
-    })
-
-    // 为文章中的所有图片添加灯箱功能
-    const images = document.querySelectorAll(
-      ".prose img",
-    ) as NodeListOf<HTMLImageElement>
-    images.forEach((img) => {
-      // 创建包装器
-      const wrapper = document.createElement("div")
-      wrapper.className = "image-hover"
-
-      // 如果有alt文本，添加说明文字
-      if (img.alt) {
-        const caption = document.createElement("div")
-        caption.className = "image-caption"
-        caption.textContent = img.alt
-        wrapper.appendChild(caption)
+    try {
+      // 配置lightbox
+      if (window.lightbox) {
+        window.lightbox.option({
+          resizeDuration: 200,
+          wrapAround: true,
+          albumLabel: "图片 %1 / %2",
+          fadeDuration: 300,
+          imageFadeDuration: 300,
+          positionFromTop: 100,
+          maxWidth: 1200,
+          maxHeight: 800,
+          disableScrolling: true,
+          alwaysShowNavOnTouchDevices: true,
+        })
       }
 
-      // 将图片包装在div中
-      img.parentNode?.insertBefore(wrapper, img)
-      wrapper.appendChild(img)
+      // 为文章中的所有图片添加灯箱功能
+      const images = document.querySelectorAll(
+        ".prose img",
+      ) as NodeListOf<HTMLImageElement>
+      images.forEach((img) => {
+        // 创建包装器
+        const wrapper = document.createElement("div")
+        wrapper.className = "image-hover"
 
-      // 添加灯箱功能
-      img.setAttribute("data-lightbox", "gallery")
-      img.setAttribute("data-title", img.alt || "")
+        // 如果有alt文本，添加说明文字
+        if (img.alt) {
+          const caption = document.createElement("div")
+          caption.className = "image-caption"
+          caption.textContent = img.alt
+          wrapper.appendChild(caption)
+        }
 
-      // 添加点击效果
-      img.style.cursor = "zoom-in"
-    })
+        // 将图片包装在div中
+        img.parentNode?.insertBefore(wrapper, img)
+        wrapper.appendChild(img)
+
+        // 添加灯箱功能
+        img.setAttribute("data-lightbox", "gallery")
+        img.setAttribute("data-title", img.alt || "")
+
+        // 添加点击效果
+        img.style.cursor = "zoom-in"
+      })
+    } catch (error) {
+      console.error("初始化灯箱功能时出错:", error)
+    }
   }
 
   // 等待DOM加载完成后初始化
-  document.addEventListener("DOMContentLoaded", () => {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      waitForDependencies(initializeFeatures)
+    })
+  } else {
     waitForDependencies(initializeFeatures)
-  })
+  }
 
   // 在页面切换时重新初始化
   document.addEventListener("astro:page-load", () => {
