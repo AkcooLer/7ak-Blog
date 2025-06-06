@@ -7,6 +7,7 @@ import MainLayout from "~/layouts/main.astro"
 import "~/styles/post.css"
 import "~/styles/post.scss"
 import { formatDate, getPostsByLocale } from "~/utils"
+import { processTags, processTitle } from "~/utils/content"
 
 export async function getStaticPaths() {
   const allPaths = []
@@ -24,16 +25,18 @@ export async function getStaticPaths() {
 }
 
 const lang = getLangFromUrl(Astro.url)
-
 const { post } = Astro.props
 
+// 处理文章内容，防止XSS攻击
+const safeTitle = processTitle(post.data.title)
+const safeTags = processTags(post.data.tags)
 const { Content } = await render(post)
 ---
 
 <MainLayout {...post.data}>
-  <article class="prose w-full max-w-3xl overflow-hidden dark:prose-invert">
+  <article class="prose dark:prose-invert w-full max-w-3xl overflow-hidden">
     <div class="flex flex-col gap-2">
-      <h2 class="!my-0 text-3xl font-semibold">{post.data.title}</h2>
+      <h2 class="!my-0 text-3xl font-semibold">{safeTitle}</h2>
       <div class="my-3 text-gray-500 dark:text-white/80">
         {formatDate(post.data.pubDate)}
       </div>
@@ -45,7 +48,7 @@ const { Content } = await render(post)
 
     <div class="space-x-3 pb-10 text-sm text-gray-500">
       {
-        post.data.tags.map((tag: string) => (
+        safeTags.map((tag: string) => (
           <a href={`/${lang}/tags/${tag}`} class="no-underline">
             <p class="inline-block hover:scale-105">#{tag}</p>
           </a>
