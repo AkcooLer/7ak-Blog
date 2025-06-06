@@ -4,10 +4,11 @@ import Comments from "~/components/astro/comments.astro"
 import { langs } from "~/i18n/ui"
 import { getLangFromUrl } from "~/i18n/utils"
 import MainLayout from "~/layouts/main.astro"
+import { processContent, processTitle, processTags } from "~/utils/content"
 import "~/styles/post.css"
 import "~/styles/post.scss"
+import "~/styles/image-hover.css"
 import { formatDate, getPostsByLocale } from "~/utils"
-import { processTags, processTitle } from "~/utils/content"
 
 export async function getStaticPaths() {
   const allPaths = []
@@ -31,6 +32,9 @@ const { post } = Astro.props
 const safeTitle = processTitle(post.data.title)
 const safeTags = processTags(post.data.tags)
 const { Content } = await render(post)
+
+// 处理文章内容中的图片，添加悬浮效果
+const processedContent = processContent(post.body)
 ---
 
 <MainLayout {...post.data}>
@@ -61,3 +65,28 @@ const { Content } = await render(post)
     <Comments />
   </div>
 </MainLayout>
+
+<script>
+  // 为文章中的所有图片添加悬浮效果
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(
+      ".prose img",
+    ) as NodeListOf<HTMLImageElement>
+    images.forEach((img) => {
+      const wrapper = document.createElement("div")
+      wrapper.className = "image-hover"
+
+      // 如果有alt文本，添加说明文字
+      if (img.alt) {
+        const caption = document.createElement("div")
+        caption.className = "image-caption"
+        caption.textContent = img.alt
+        wrapper.appendChild(caption)
+      }
+
+      // 将图片包装在div中
+      img.parentNode?.insertBefore(wrapper, img)
+      wrapper.appendChild(img)
+    })
+  })
+</script>
