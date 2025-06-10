@@ -4,11 +4,8 @@ import Comments from "~/components/astro/comments.astro"
 import { langs } from "~/i18n/ui"
 import { getLangFromUrl } from "~/i18n/utils"
 import MainLayout from "~/layouts/main.astro"
-import { processContent, processTitle, processTags } from "~/utils/content"
 import "~/styles/post.css"
 import "~/styles/post.scss"
-import "~/styles/image-hover.css"
-import "~/styles/lightbox.css"
 import { formatDate, getPostsByLocale } from "~/utils"
 
 export async function getStaticPaths() {
@@ -27,21 +24,16 @@ export async function getStaticPaths() {
 }
 
 const lang = getLangFromUrl(Astro.url)
+
 const { post } = Astro.props
 
-// 处理文章内容，防止XSS攻击
-const safeTitle = processTitle(post.data.title)
-const safeTags = processTags(post.data.tags)
 const { Content } = await render(post)
-
-// 处理文章内容中的图片，添加悬浮效果
-const processedContent = processContent(post.body)
 ---
 
 <MainLayout {...post.data}>
-  <article class="prose dark:prose-invert w-full max-w-3xl overflow-hidden">
+  <article class="prose w-full max-w-3xl overflow-hidden dark:prose-invert">
     <div class="flex flex-col gap-2">
-      <h2 class="!my-0 text-3xl font-semibold">{safeTitle}</h2>
+      <h2 class="!my-0 text-3xl font-semibold">{post.data.title}</h2>
       <div class="my-3 text-gray-500 dark:text-white/80">
         {formatDate(post.data.pubDate)}
       </div>
@@ -53,7 +45,7 @@ const processedContent = processContent(post.body)
 
     <div class="space-x-3 pb-10 text-sm text-gray-500">
       {
-        safeTags.map((tag: string) => (
+        post.data.tags.map((tag: string) => (
           <a href={`/${lang}/tags/${tag}`} class="no-underline">
             <p class="inline-block hover:scale-105">#{tag}</p>
           </a>
@@ -66,100 +58,3 @@ const processedContent = processContent(post.body)
     <Comments />
   </div>
 </MainLayout>
-
-<!-- 引入lightbox2库 -->
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css"
-  rel="stylesheet"
-/>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"
-></script>
-
-<script>
-  // 声明lightbox类型
-  declare global {
-    interface Window {
-      jQuery: any
-      lightbox: {
-        option: (options: {
-          resizeDuration?: number
-          wrapAround?: boolean
-          albumLabel?: string
-          fadeDuration?: number
-          imageFadeDuration?: number
-          positionFromTop?: number
-          maxWidth?: number
-          maxHeight?: number
-          disableScrolling?: boolean
-          alwaysShowNavOnTouchDevices?: boolean
-        }) => void
-      }
-    }
-  }
-
-  // 等待所有依赖加载完成
-  function waitForDependencies(callback: () => void) {
-    if (window.jQuery && window.lightbox) {
-      callback()
-    } else {
-      setTimeout(() => waitForDependencies(callback), 100)
-    }
-  }
-
-  // 初始化功能
-  function initializeFeatures() {
-    // 配置lightbox
-    window.lightbox.option({
-      resizeDuration: 200,
-      wrapAround: true,
-      albumLabel: "图片 %1 / %2",
-      fadeDuration: 300,
-      imageFadeDuration: 300,
-      positionFromTop: 100,
-      maxWidth: 1200,
-      maxHeight: 800,
-      disableScrolling: true,
-      alwaysShowNavOnTouchDevices: true,
-    })
-
-    // 为文章中的所有图片添加灯箱功能
-    const images = document.querySelectorAll(
-      ".prose img",
-    ) as NodeListOf<HTMLImageElement>
-    images.forEach((img) => {
-      // 创建包装器
-      const wrapper = document.createElement("div")
-      wrapper.className = "image-hover"
-
-      // 如果有alt文本，添加说明文字
-      if (img.alt) {
-        const caption = document.createElement("div")
-        caption.className = "image-caption"
-        caption.textContent = img.alt
-        wrapper.appendChild(caption)
-      }
-
-      // 将图片包装在div中
-      img.parentNode?.insertBefore(wrapper, img)
-      wrapper.appendChild(img)
-
-      // 添加灯箱功能
-      img.setAttribute("data-lightbox", "gallery")
-      img.setAttribute("data-title", img.alt || "")
-
-      // 添加点击效果
-      img.style.cursor = "zoom-in"
-    })
-  }
-
-  // 等待DOM加载完成后初始化
-  document.addEventListener("DOMContentLoaded", () => {
-    waitForDependencies(initializeFeatures)
-  })
-
-  // 在页面切换时重新初始化
-  document.addEventListener("astro:page-load", () => {
-    waitForDependencies(initializeFeatures)
-  })
-</script>

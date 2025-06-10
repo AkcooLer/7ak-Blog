@@ -13,7 +13,7 @@ export const common = {
     {
       icon: Twitter,
       label: "X",
-      link: "https://x.com/AKcooling",
+      link: "https://x.com/akcooler",
     },
     {
       icon: Github,
