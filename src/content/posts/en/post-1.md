@@ -1,9 +1,9 @@
 ---
-title: Deepseek&Open-WebUi本地部署过程
-author: 7ak
-description: "Deepseek&Open-WebUi本地部署过程"
-pubDate: 2025-05-08
-tags: ["AI", "运维", "Ollama"]
+title: "DeepSeek|Ollama-本地部署"
+description: "DeepSeek Ollama"
+pubDate: 2025-05-03
+updatedDate(optional): 2025-05-03
+tags(optional): ["运维", "Ai"]
 ---
 
 ## 一、软件需求

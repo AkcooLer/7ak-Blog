@@ -1,11 +1,10 @@
 ---
-title: xss注入备忘录
-author: ak
-description: "xss注入备忘录"
+title: "XSS注入备忘录"
+description: "XSS注入备忘录"
 pubDate: 2025-05-08
-tags: ["安全", "xss", "渗透"]
+updatedDate(optional): 2025-05-08
+tags(optional): ["安全", "Xss"]
 ---
-
 # XSS注入备忘录
 
 ## 什么是XSS？
